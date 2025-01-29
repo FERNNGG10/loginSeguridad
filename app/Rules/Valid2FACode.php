@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
@@ -36,7 +37,7 @@ class Valid2FACode implements Rule
     public function passes($attribute, $value)
     {
         $user = User::find($this->userId);
-        return $user && Hash::check($value, $user->code);
+        return $user && Hash::check($value, $user->code) && Carbon::now()->lessThanOrEqualTo($user->code_expires_at);
     }
 
     /**

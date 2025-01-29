@@ -107,10 +107,6 @@
             signUpButton.disabled = true;
             signUpButton.innerHTML = 'Signing Up...';
 
-            setTimeout(function() {
-                signUpButton.disabled = false;
-                signUpButton.innerText = 'Sign Up';
-            }, 4000);
         });
     </script>
 

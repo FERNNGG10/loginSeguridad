@@ -6,6 +6,7 @@ use App\Mail\Mail2FA;
 use App\Models\User;
 use App\Rules\ReCaptcha;
 use App\Rules\Valid2FACode;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -61,6 +62,7 @@ class AuthController extends Controller
                 return redirect()->route('login')->with('error', 'Error sending the 2FA code.');
             }
             $user->code = Hash::make($code);
+            $user->code_expires_at = Carbon::now()->addMinutes(10);
             $user->save();
             $signedRoute = URL::temporarySignedRoute(
                 '2fa',

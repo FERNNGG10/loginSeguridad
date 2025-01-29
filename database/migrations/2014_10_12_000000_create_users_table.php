@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('status')->default(false);
             $table->string('code')->nullable();
+            $table->timestamp('code_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

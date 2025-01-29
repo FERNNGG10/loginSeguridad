@@ -73,11 +73,6 @@
         var loginButton = document.getElementById('loginButton');
         loginButton.disabled = true;
         loginButton.innerHTML = 'Signing In...';
-
-        setTimeout(function() {
-            loginButton.disabled = false;
-            loginButton.innerText = 'Sign In';
-        }, 4000);
     });
   </script>
 
