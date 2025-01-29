@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -38,6 +39,7 @@ class RegisterController extends Controller
             'g-recaptcha-response' => ['required', new ReCaptcha()],
         ]);
 
+
         $signedRoute = URL::temporarySignedRoute(
             'active', now()->addMinutes(10),
             ['user' => $validated['email']]
@@ -45,15 +47,18 @@ class RegisterController extends Controller
 
         try {
             Mail::to($request->email)->send(new MailActivation($signedRoute));
+            Log::info('Activation email sent to ' . $request->email);
         } catch (\Exception $e) {
             return redirect()->route('register')->with('error', 'There was an error sending the activation email. Please try again.');
+            Log::error('Error sending the activation email',['email' => $request->email, 'exception' => $e]);
         }
 
-        User::create([
+        $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
+        Log::info('User registered', ['user'=>$user]);
 
         return redirect()->route('login')->with('success', 'Check your email to verify your account');
     }
@@ -70,6 +75,7 @@ class RegisterController extends Controller
         if ($user && !$user->status) {
             $user->status = true;
             $user->save();
+            Log::info('User account activated', ['user' => $user]);
             return redirect()->route('login')->with('success', 'Your account has been activated');
         }
         return redirect()->route('notfound');

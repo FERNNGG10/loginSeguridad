@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -56,6 +57,7 @@ class AuthController extends Controller
             try {
                 Mail::to($request->email)->send(new Mail2FA($code));
             } catch (\Exception $e) {
+                Log::error('Error sending the 2FA code', ['email' => $request->email, 'exception' => $e]);
                 return redirect()->route('login')->with('error', 'Error sending the 2FA code.');
             }
             $user->code = Hash::make($code);
@@ -65,8 +67,10 @@ class AuthController extends Controller
                 now()->addMinutes(10),
                 ['id' => $user->id]
             );
+            Log::info('2FA code sent to ' . $request->email);
             return redirect($signedRoute);
         }
+        Log::info('Invalid credentials', ['email' => $request->email]);
         return redirect()->route('login')->with('error', 'Invalid credentials');
     }
 
@@ -85,6 +89,7 @@ class AuthController extends Controller
         $user = User::find($id);
         if ($user) {
             Auth::login($user);
+            Log::info('User logged in', ['user' => $user]);
             return redirect()->route('dashboard');
         }
     }
