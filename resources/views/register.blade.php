@@ -7,7 +7,7 @@
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script src="{{ asset('js/form-handler.js') }}" defer></script>
+    <script src="{{ asset('js/formHandler.js') }}"></script>
 </head>
 
 <body>
@@ -32,11 +32,11 @@
                         placeholder="Your Name" value="{{old('name')}}"
                         required
                         maxlength="30" />
+                    <p id="nameError" class="text-sm text-red-600 mt-1"></p>
                     @error('name')
                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -48,11 +48,10 @@
                         placeholder="your@email.com" value="{{old('email')}}"
                         required
                         maxlength="255" />
-
+                    <p id="emailError" class="text-sm text-red-600 mt-1"></p>
                     @error('email')
                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
-
                 </div>
 
                 <div>
@@ -66,6 +65,7 @@
                         required
                         minlength="8"
                         maxlength="255" />
+                    <p id="passwordError" class="text-sm text-red-600 mt-1"></p>
                     @error('password')
                     <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
@@ -82,11 +82,13 @@
                         required
                         minlength="8"
                         maxlength="255" />
+                    <p id="passwordConfirmationError" class="text-sm text-red-600 mt-1"></p>
                 </div>
 
                 <div class="flex justify-center">
                     <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
                 </div>
+                <p id="recaptchaError" class="text-sm text-red-600 mt-1 text-center"></p>
                 @error('g-recaptcha-response')
                 <p class="text-sm text-red-600 mt-1 text-center">{{ $message }}</p>
                 @enderror
@@ -103,19 +105,8 @@
         </div>
     </div>
     <script>
-        document.getElementById('registerForm').addEventListener('submit', function(event) {
-            var signUpButton = document.getElementById('signUpButton');
-            signUpButton.disabled = true;
-            signUpButton.innerHTML = 'Signing Up...';
-
-        setTimeout(function() {
-            signUpButton.disabled = false;
-            signUpButton.innerHTML = 'Sign Up';
-        }, 5000);   
-            
-        });
+        disableButtonOnSubmit('registerForm', 'signUpButton', 'Signing Up...', 'Sign Up');
     </script>
-
 </body>
 
 </html>

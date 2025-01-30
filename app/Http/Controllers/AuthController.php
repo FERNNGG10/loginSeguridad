@@ -55,12 +55,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
         if ($user && Hash::check($request->password, $user->password) && $user->status) {
             $code = rand(100000, 999999);
-            try {
-                Mail::to($request->email)->send(new Mail2FA($code));
-            } catch (\Exception $e) {
-                Log::error('Error sending the 2FA code', ['email' => $request->email, 'exception' => $e]);
-                return redirect()->route('login')->with('error', 'Error sending the 2FA code.');
-            }
+            Mail::to($request->email)->send(new Mail2FA($code));
             $user->code = Hash::make($code);
             $user->code_expires_at = Carbon::now()->addMinutes(10);
             $user->save();

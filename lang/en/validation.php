@@ -170,7 +170,7 @@ return [
             'regex' => 'The name may only contain letters, numbers, and spaces.',
         ],
         'password' => [
-            'regex' => 'The password must contain one special character.',
+            'regex' => 'The password must contain at least one uppercase letter, one number, and one special character.',
             'not_regex' => 'The password must not contain spaces.',
         ],
         'g-recaptcha-response' => [

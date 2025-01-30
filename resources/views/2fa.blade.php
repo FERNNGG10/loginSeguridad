@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Two-Factor Authentication</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  
+  <script src="{{ asset('js/formHandler.js') }}"></script>
 </head>
 
 <body>
@@ -30,6 +30,7 @@
             required
             oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6);"
             />
+            <p id="codeError" class="text-sm text-red-600 mt-1"></p>
         </div>
 
         <button id="sendCode" type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">
@@ -44,16 +45,8 @@
   </div>
 
   <script>
-        document.getElementById('codeForm').addEventListener('submit', function(event) {
-            var sendCodeButton = document.getElementById('sendCode');
-            sendCodeButton.disabled = true;
-            sendCodeButton.innerHTML = 'Sending Code...';
-
-            setTimeout(function() {
-                sendCodeButton.disabled = false;
-                sendCodeButton.innerText = 'Verify';
-            }, 5000);
-        });
+      disableButtonOnSubmit('codeForm', 'sendCode', 'Signing In...', 'Verify');
+      </script>
   </script>
 </body>
 

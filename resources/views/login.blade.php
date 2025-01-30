@@ -7,6 +7,7 @@
   <title>Document</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src='https://www.google.com/recaptcha/api.js'></script>
+   <script src="{{ asset('js/formHandler.js') }}"></script>
 </head>
 
 <body>
@@ -69,16 +70,8 @@
   </div>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        var loginButton = document.getElementById('loginButton');
-        loginButton.disabled = true;
-        loginButton.innerHTML = 'Signing In...';
-        
-        setTimeout(function() {
-            loginButton.disabled = false;
-            loginButton.innerHTML = 'Sign In';
-        }, 5000);
-    });
+    disableButtonOnSubmit('loginForm', 'loginButton', 'Signing In...', 'Sign In');
+    
   </script>
 
 </body>
