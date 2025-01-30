@@ -90,6 +90,9 @@ class AuthController extends Controller
         ]);
         $user = User::find($id);
         if ($user) {
+            $user->code = null;
+            $user->code_expires_at = null;
+            $user->save();
             Auth::login($user);
             Log::info('User logged in', ['user' => $user]);
             return redirect()->route('dashboard');

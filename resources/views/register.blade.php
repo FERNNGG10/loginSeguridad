@@ -7,6 +7,7 @@
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="{{ asset('js/form-handler.js') }}" defer></script>
 </head>
 
 <body>
@@ -107,6 +108,11 @@
             signUpButton.disabled = true;
             signUpButton.innerHTML = 'Signing Up...';
 
+        setTimeout(function() {
+            signUpButton.disabled = false;
+            signUpButton.innerHTML = 'Sign Up';
+        }, 5000);   
+            
         });
     </script>
 

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Two-Factor Authentication</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  
 </head>
 
 <body>
@@ -49,9 +50,9 @@
             sendCodeButton.innerHTML = 'Sending Code...';
 
             setTimeout(function() {
-                signUpButton.disabled = false;
-                signUpButton.innerText = 'Verify';
-            }, 4000);
+                sendCodeButton.disabled = false;
+                sendCodeButton.innerText = 'Verify';
+            }, 5000);
         });
   </script>
 </body>
