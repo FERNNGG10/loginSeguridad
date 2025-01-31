@@ -1,3 +1,10 @@
+/**
+ * Disables a button when a form is submitted and re-enables it after a delay.
+ * @param {string} formId - The ID of the form.
+ * @param {string} buttonId - The ID of the button to disable.
+ * @param {string} [processingText='Processing...'] - The text to display on the button while processing.
+ * @param {string} [defaultText='Submit'] - The default text to display on the button.
+ */
 function disableButtonOnSubmit(formId, buttonId, processingText = 'Processing...', defaultText = 'Submit') {
     document.getElementById(formId).addEventListener('submit', function(event) {
         var button = document.getElementById(buttonId);
@@ -26,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const PASSWORD_CONFIRMATION_ERROR = document.getElementById('passwordConfirmationError');
         const RECAPTCHA_ERROR = document.getElementById('recaptchaError');
 
+        /**
+         * Validates the name input field.
+         */
         NAME_INPUT.addEventListener('input', function () {
             const NAME_REGEX = /^[a-zA-Z0-9\s]+$/;
             if (!NAME_REGEX.test(NAME_INPUT.value)) {
@@ -35,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        /**
+         * Validates the email input field.
+         */
         EMAIL_INPUT.addEventListener('input', function () {
             const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             if (!EMAIL_REGEX.test(EMAIL_INPUT.value)) {
@@ -44,6 +57,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        /**
+         * Validates the password input field.
+         */
         PASSWORD_INPUT.addEventListener('input', function () {
             const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
             if (!PASSWORD_REGEX.test(PASSWORD_INPUT.value)) {
@@ -53,6 +69,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        /**
+         * Validates the password confirmation input field.
+         */
         PASSWORD_CONFIRMATION_INPUT.addEventListener('input', function () {
             if (PASSWORD_INPUT.value !== PASSWORD_CONFIRMATION_INPUT.value) {
                 PASSWORD_CONFIRMATION_ERROR.textContent = 'Passwords do not match.';
@@ -61,6 +80,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        /**
+         * Validates the form on submit.
+         * @param {Event} event - The submit event.
+         */
         FORM.addEventListener('submit', function (event) {
             let isValid = true;
 
@@ -88,6 +111,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const CODE_INPUT = document.getElementById('code');
         const CODE_ERROR = document.getElementById('codeError');
 
+        /**
+         * Validates the 2FA code input field.
+         */
         CODE_INPUT.addEventListener('input', function () {
             const CODE_REGEX = /^\d{6}$/;
             if (!CODE_REGEX.test(CODE_INPUT.value)) {
@@ -97,6 +123,10 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        /**
+         * Validates the 2FA form on submit.
+         * @param {Event} event - The submit event.
+         */
         FORM.addEventListener('submit', function (event) {
             if (CODE_ERROR.textContent) {
                 event.preventDefault();

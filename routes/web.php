@@ -23,7 +23,7 @@ Route::get('active/{user}', [RegisterController::class, 'active'])->middleware('
 // Authentication routes
 Route::get('/', [AuthController::class, 'create'])->name('login');
 Route::post('/', [AuthController::class, 'login'])->name('login.post');
-Route::get('2fa/{id}', [AuthController::class, 'create2FA'])->where('id', '[0-9]+')->middleware('signed')->name('2fa');
+Route::get('2fa/{id}', [AuthController::class, 'create2FA'])->where('id', '[0-9]+')->middleware(['signed','isActive'])->name('2fa');
 Route::post('2fa/{id}', [AuthController::class, 'verify2FA'])->where('id', '[0-9]+')->name('2fa.verify');
 
 // Protected routes

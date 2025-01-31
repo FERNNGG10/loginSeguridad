@@ -48,14 +48,17 @@ class RegisterController extends Controller
             'g-recaptcha-response' => ['required', new ReCaptcha()],
         ]);
 
-
         $signedRoute = URL::temporarySignedRoute(
             'active',
             now()->addMinutes(10),
             ['user' => $validated['email']]
         );
-
-        Mail::to($request->email)->send(new MailActivation($signedRoute));
+        try {
+            Mail::to($request->email)->send(new MailActivation($signedRoute));
+            Log::info('Activation email sent to ' . $request->email);
+        } catch (\Exception $e) {
+            return redirect()->route('register')->with('error', 'There was an error sending the activation email. Please try again.');
+        }
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
