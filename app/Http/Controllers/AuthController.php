@@ -87,6 +87,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'code' => ['required', 'numeric', 'digits:6', new Valid2FACode($id)],
+            'g-recaptcha-response' => ['required', new ReCaptcha()],
         ]);
         $user = User::find($id);
         if ($user) {

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Two-Factor Authentication</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
   <script src="{{ asset('js/formHandler.js') }}"></script>
 </head>
 
@@ -32,6 +33,13 @@
             />
             <p id="codeError" class="text-sm text-red-600 mt-1"></p>
         </div>
+
+        <div class="flex justify-center">
+          <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY') }}"></div>
+        </div>
+        @error('g-recaptcha-response')
+          <p class="text-sm text-red-600 mt-1 text-center">{{ $message }}</p>
+        @enderror
 
         <button id="sendCode" type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">
           Verify
