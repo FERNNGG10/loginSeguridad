@@ -56,7 +56,7 @@ class AuthController extends Controller
         if ($user && Hash::check($request->password, $user->password) && $user->status) {
             $code = rand(100000, 999999);
 
-              try {
+            try {
                 Mail::to($request->email)->send(new Mail2FA($code));
             } catch (\Exception $e) {
                 return redirect()->route('login')->with('error', 'Error sending the 2FA code.');
